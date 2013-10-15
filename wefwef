@@ -1,0 +1,42 @@
+--select login, SUM(cena) from koupil group by login;
+--select * from koupil order by login;
+
+
+
+/*
+select v.jmeno , SUM(cena)from vyrobek v
+join koupil k on k.vID = v.vID
+ group by v.jmeno 
+*/
+/*
+select v.jmeno, COUNT(v.vID) as 'pocet nakupu' from vyrobek v
+join koupil k on v.vID = k.vID
+group by v.jmeno order by COUNT(v.vID) desc
+*/
+/*
+select v.jmeno, COUNT(*) as 'pocet zakoupeni' from vyrobek v
+join koupil k on v.vID = k.vID
+join uzivatel u on u.login = k.login
+where k.rok = 2009 and u.rok_narozeni between 1980 and 1995
+group by v.jmeno
+*/
+/*
+select * from uzivatel u
+join koupil k on k.login = u.login
+join vyrobek v on v.vID = k.vID
+order by k.cena , v.jmeno
+*/
+/*
+select u.login, v.jmeno, MIN(cena)  as minimum   from uzivatel u
+join koupil k on k.login = u.login
+join vyrobek v on v.vID = k.vID
+group by u.login,v.jmeno
+*/
+
+
+select distinct * from vyrobek v, koupil k
+where  exists
+(
+select k.vID, MIN(cena)as 'min cena' from koupil k
+group by k.vID
+)
